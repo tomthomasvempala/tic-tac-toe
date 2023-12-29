@@ -5,15 +5,15 @@ function App() {
   return (
     <div>
       <h1>TIC-TAC-TOE</h1>
-      <Board></Board>
+      <Board className='board'></Board>
     </div>
   );
 }
 
 function Square({ value, onSquareClicked }) {
   return (
-    <button className='square' onClick={onSquareClicked} style={{backgroundColor:value.color}}>
-      {value.value===null?'_':value.value}
+    <button data-testid = 'square' className='square' onClick={onSquareClicked} style={{backgroundColor:value.color}}>
+      {value.value}
     </button>
   );
 }
@@ -23,7 +23,6 @@ function Board() {
   const [square, setSquares] = useState(Array(9).fill({value:null,color:'white'}));
   const [turn,setTurn] = useState('X')
   const status = getStatus(square)
-  console.log(turn)
   function handleClick(i) {
     if(square[i].value!==null || status.status === 'Draw' || status.status === 'Winner'){
       return
@@ -45,24 +44,25 @@ function Board() {
   const statusString = status.status === 'Winner' ? 'Winner is '+ status.winner : status.status === 'Ongoing' ? turn + '\'s turn' : 'Draw'
   return (
     <>
-    <h2>Status : {statusString}</h2>
-      <div className="board-row">
-        <Square value={square[0]} onSquareClicked={() => handleClick(0)} />
-        <Square value={square[1]} onSquareClicked={() => handleClick(1)} />
-        <Square value={square[2]} onSquareClicked={() => handleClick(2)} />
+    <h2 data-testid= 'status'>Status : {statusString}</h2>
+      <div data-testid="gameBoard">
+        <div className="board-row">
+          <Square value={square[0]} onSquareClicked={() => handleClick(0)} />
+          <Square value={square[1]} onSquareClicked={() => handleClick(1)} />
+          <Square value={square[2]} onSquareClicked={() => handleClick(2)} />
+        </div>
+        <div className="board-row">
+          <Square value={square[3]} onSquareClicked={() => handleClick(3)} />
+          <Square value={square[4]} onSquareClicked={() => handleClick(4)} />
+          <Square value={square[5]} onSquareClicked={() => handleClick(5)} />
+        </div>
+        <div className="board-row">
+          <Square value={square[6]} onSquareClicked={() => handleClick(6)} />
+          <Square value={square[7]} onSquareClicked={() => handleClick(7)} />
+          <Square value={square[8]} onSquareClicked={() => handleClick(8)} />
+        </div>
       </div>
-      <div className="board-row">
-        <Square value={square[3]} onSquareClicked={() => handleClick(3)} />
-        <Square value={square[4]} onSquareClicked={() => handleClick(4)} />
-        <Square value={square[5]} onSquareClicked={() => handleClick(5)} />
-
-      </div>
-      <div className="board-row">
-        <Square value={square[6]} onSquareClicked={() => handleClick(6)} />
-        <Square value={square[7]} onSquareClicked={() => handleClick(7)} />
-        <Square value={square[8]} onSquareClicked={() => handleClick(8)} />
-      </div>
-      <button className='reset' onClick={()=> setSquares(Array(9).fill({value:null,color:'white'}))} >Reset</button>
+      <button className='reset' data-testid='reset' onClick={()=> {setSquares(Array(9).fill({value:null,color:'white'})); setTurn('X')}} >Reset</button>
     </>
   );
 }
